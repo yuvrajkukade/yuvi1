@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Festival Gallery</title>
+  <style>
+    body {
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+      background: #e3f2fd;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #1976d2;
+      color: white;
+      padding: 18px;
+      text-align: center;
+    }
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      padding: 30px;
+    }
+    .gallery-item {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+      width: 220px;
+      text-align: center;
+      padding: 15px;
+    }
+    .gallery-item img {
+      width: 100%;
+      border-radius: 6px;
+      height: 140px;
+      object-fit: cover;
+      margin-bottom: 10px;
+    }
+    .gallery-item h3 {
+      margin: 0 0 8px 0;
+      color: #1976d2;
+      font-size: 18px;
+    }
+    footer {
+      background: #1565c0;
+      color: white;
+      text-align: center;
+      padding: 12px;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Festival Gallery</h1>
+    <p>See vibrant moments from local celebrations!</p>
+  </header>
+  <div class="gallery">
+    <div class="gallery-item">
+      <img src="https://source.unsplash.com/220x140/?festival,india" alt="Festival 1"/>
+      <h3>Spring Parade</h3>
+      <p>Colorful parade marking the start of spring.</p>
+    </div>
+    <div class="gallery-item">
+      <img src="https://source.unsplash.com/220x140/?dance,india" alt="Festival 2"/>
+      <h3>Folk Dance Night</h3>
+      <p>Traditional dances performed by local artists.</p>
+    </div>
+    <div class="gallery-item">
+      <img src="https://source.unsplash.com/220x140/?food,festival" alt="Festival 3"/>
+      <h3>Food Fiesta</h3>
+      <p>Enjoy authentic local delicacies and sweets.</p>
+    </div>
+  </div>
+  <footer>
+    &copy; 2025 Festival Gallery | Created by Yuvraj Kuakde
