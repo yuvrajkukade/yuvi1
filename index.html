@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CodeChampX - Live Student Code Battles</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
+  <!-- Google Fonts: Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;400&display=swap" rel="stylesheet">
+  <style>
+    body, html {
+      font-family: 'Poppins', 'Roboto', sans-serif;
+      background-color: var(--tw-bg-opacity) ? '#1e293b' : '#fff';
+    }
+    .transition-bg {
+      transition: background 0.5s, color 0.5s;
+    }
+    /* Fake terminal */
+    .terminal-bar {
+      background: linear-gradient(90deg, #23272f 80%, #393e46 100%);
+      border-radius: .5rem .5rem 0 0;
+      padding: 0.5rem 1rem;
+      display: flex;
+      gap: .4rem;
+      align-items: center;
+    }
+    .dot {
+      width: .7em;
+      height: .7em;
+      border-radius: 999px;
+      display: inline-block;
+      margin-right: .32em;
+    }
+    .dot.red { background: #e74c3c;}
+    .dot.yellow { background: #f9ca24;}
+    .dot.green { background: #2ecc71;}
+    .terminal-content {
+      background: #16191f;
+      color: #77f258;
+      border-radius: 0 0 .5rem .5rem;
+      font-family: 'Fira Mono', 'Menlo', 'Consolas', monospace;
+      padding: 1.2rem 1rem;
+      min-height: 130px;
+      font-size: 1.1rem;
+      position: relative;
+      overflow: auto;
+      line-height: 1.6;
+    }
+    .cursor-blink {
+      animation: blink-cursor 1s step-start infinite;
+    }
+    @keyframes blink-cursor {
+      50% {opacity: 0;}
+    }
+  </style>
+</head>
+<body class="transition-bg bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100 duration-500">
+
+  <!-- NAV + Theme Toggle -->
+  <nav class="flex justify-between items-center px-8 py-4 shadow-md bg-white dark:bg-gray-900 sticky top-0 z-30">
+    <a href="#" class="text-2xl font-bold text-blue-600 dark:text-blue-400 tracking-wider">CodeChampX</a>
+    <button id="theme-toggle" aria-label="Toggle Theme" class="text-2xl focus:outline-none hover:text-blue-600 dark:hover:text-yellow-300"><i class="fa-solid fa-circle-half-stroke"></i></button>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="flex flex-col items-center justify-center py-16 px-6 md:px-0 bg-gradient-to-tr from-blue-100 via-white to-purple-50 dark:from-gray-900 dark:to-gray-800 transition-bg">
+    <h1 class="text-4xl md:text-6xl font-extrabold mb-6 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 bg-clip-text text-transparent">Battle. Code. Win.<br/>With <span class="text-blue-600 dark:text-blue-400">CodeChampX</span></h1>
+    <p class="max-w-2xl text-lg md:text-2xl mb-7 text-center">The ultimate live code battle platform for students. Compete, learn, and get ranked instantly!</p>
+    <div class="flex space-x-4">
+      <a id="get-started-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-7 rounded-lg text-lg shadow-md transition" href="login.html">Get Started</a>
+      <a href="#how" id="join-battle-btn" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-7 rounded-lg text-lg shadow-md transition">Join a Code Battle</a>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="py-14 bg-white dark:bg-gray-900 transition-bg">
+    <div class="container mx-auto px-6">
+      <h2 class="text-3xl font-bold text-center mb-10">Key Features</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        
+        <div class="flex flex-col items-center">
+          <i class="fa-solid fa-laptop-code text-4xl text-purple-600 mb-4"></i>
+          <h3 class="text-xl font-semibold mb-2">Online Code Editor</h3>
+          <p class="text-center text-gray-600 dark:text-gray-300">Write, compile, and run code in real-time using our integrated editor powered by Compiler API.</p>
+        </div>
+        
+        <div class="flex flex-col items-center">
+          <i class="fa-solid fa-bolt text-4xl text-yellow-500 mb-4"></i>
+          <h3 class="text-xl font-semibold mb-2">Real-time Challenges</h3>
+          <p class="text-center text-gray-600 dark:text-gray-300">Engage in challenge-based coding battles with instant feedback and auto-evaluation on test cases.</p>
+        </div>
+        
+        <div class="flex flex-col items-center">
+          <i class="fa-solid fa-ranking-star text-4xl text-green-500 mb-4"></i>
+          <h3 class="text-xl font-semibold mb-2">Instant Scoring & Ranking</h3>
+          <p class="text-center text-gray-600 dark:text-gray-300">Get live scores and see your rank update instantly as you solve problems faster.</p>
+        </div>
+        <div class="flex flex-col items-center">
+          <i class="fa-solid fa-certificate text-4xl text-orange-500 mb-4"></i>
+          <h3 class="text-xl font-semibold mb-2">Auto Certificates</h3>
+          <p class="text-center text-gray-600 dark:text-gray-300">Win digital certificates on the spot! Enabled by PDF generation with FPDF for your achievements.</p>
+        </div>
+        <div class="flex flex-col items-center">
+          <i class="fa-solid fa-users-line text-4xl text-teal-400 mb-4"></i>
+          <h3 class="text-xl font-semibold mb-2">College/Events Ready</h3>
+          <p class="text-center text-gray-600 dark:text-gray-300">Perfect for colleges and coding events with mass participation support.</p>
+        </div>
+        <div class="flex flex-col items-center">
+          <i class="fa-solid fa-brain text-4xl text-pink-500 mb-4"></i>
+          <h3 class="text-xl font-semibold mb-2">Smart Auto-Evaluation</h3>
+          <p class="text-center text-gray-600 dark:text-gray-300">Auto-evaluate each submission with multiple cases for fair and fast judging.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- How It Works Section -->
+  <section id="how" class="py-14 bg-gray-100 dark:bg-gray-800 transition-bg">
+    <div class="container mx-auto px-6 mb-12">
+      <h2 class="text-3xl font-bold text-center mb-12">How It Works</h2>
+      <div class="flex flex-col md:flex-row md:space-x-10 items-center">
+
+        <!-- Steps -->
+        <div class="flex-1 space-y-9 mb-10 md:mb-0">
+          <div class="flex items-start"><span class="text-xl font-bold mr-3 text-blue-600">1</span>
+            <div>
+              <span class="font-bold">Sign Up/Log In:</span> Register or join a battle room.
+            </div>
+          </div>
+          <div class="flex items-start"><span class="text-xl font-bold mr-3 text-blue-600">2</span>
+            <div>
+              <span class="font-bold">Join a Code Battle:</span> Get assigned coding tasks and start solving live.
+            </div>
+          </div>
+          <div class="flex items-start"><span class="text-xl font-bold mr-3 text-blue-600">3</span>
+            <div>
+              <span class="font-bold">Code in the Live Editor:</span> Submit solutions, auto-evaluated in real-time.
+            </div>
+          </div>
+          <div class="flex items-start"><span class="text-xl font-bold mr-3 text-blue-600">4</span>
+            <div>
+              <span class="font-bold">Instant Rankings:</span> See scores and ranking update instantly.
+            </div>
+          </div>
+          <div class="flex items-start"><span class="text-xl font-bold mr-3 text-blue-600">5</span>
+            <div>
+              <span class="font-bold">Claim Certificate:</span> Winners receive digital certificates automatically!
+            </div>
+          </div>
+        </div>
+
+        <!-- Fake Terminal -->
+        <div class="flex-1 md:max-w-md w-full border border-gray-300 dark:border-gray-700 rounded-lg shadow-xl mx-auto">
+          <div class="terminal-bar">
+            <span class="dot red"></span>
+            <span class="dot yellow"></span>
+            <span class="dot green"></span>
+            <span class="ml-2 text-gray-200 text-sm font-mono">student@codechampx</span>
+          </div>
+          <div id="terminal" class="terminal-content">
+            <span class="text-blue-300">$</span> <span class="text-white">battle start</span><br/>
+            <span class="text-blue-300">$</span> <span class="text-white">solving: "Binary Search Problem"</span><br/>
+            <span class="text-blue-300">---</span><br/>
+            <span>Submission: <span class="text-amber-400">Passed 5/5 cases</span> 🎉</span><br/>
+            <span>🏆 <span class="text-purple-400">Ranking: 1st Place</span></span><br/>
+            <span>📄 <span class="text-green-400">Certificate Generated</span></span>
+            <span class="inline-block cursor-blink" id="cursor">|</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact & Footer Section -->
+  <footer class="bg-blue-900 text-gray-100 pt-10 pb-6 ">
+    <div class="container mx-auto px-6 text-center">
+      <h3 class="font-semibold mb-2">Contact</h3>
+      <p class="mb-3">For collaborations & hosting events:<br>
+        <a href="mailto:info@codechampx.com" class="underline text-blue-200">info@codechampx.com</a>
+      </p>
+      <div class="flex items-center justify-center space-x-5 mb-5">
+        <a href="#" title="Twitter"><i class="fab fa-twitter text-xl hover:text-blue-400"></i></a>
+        <a href="#" title="LinkedIn"><i class="fab fa-linkedin text-xl hover:text-blue-400"></i></a>
+        <a href="#" title="GitHub"><i class="fab fa-github text-xl hover:text-blue-400"></i></a>
+      </div>
+      <div class="text-xs opacity-80">
+        &copy; 2024 CodeChampX. Made for colleges and coding events.<br/>
+        Powered by <span class="font-semibold">Tailwind CSS</span> & <span class="font-semibold">Font Awesome</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Theme Toggle JS -->
+  <script>
+    // Theme toggle
+    const btn = document.getElementById('theme-toggle');
+    const html = document.documentElement;
+    btn.onclick = function() {
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    };
+    // Set initial theme
+    if (localStorage.getItem('theme') === 'dark' || 
+        (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      html.classList.add('dark');
+    } else {
+      html.classList.remove('dark');
+    }
+
+    // Get Started button action
+    document.getElementById('get-started-btn').onclick = function(e) {
+      e.preventDefault();
+      alert('Welcome to CodeChampX!');
+    };
+
+    // Join a Code Battle button action
+    document.getElementById('join-battle-btn').onclick = function(e) {
+      e.preventDefault();
+      alert('Joining a Code Battle!');
+      // Optionally, scroll to How It Works section:
+      // document.getElementById('how').scrollIntoView({ behavior: 'smooth' });
+    };
+  </script>
+</body>
+</html>

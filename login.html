@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dynamic Login Page</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<style>
+    body {
+  background: linear-gradient(120deg, #176598, #792c9b);
+  min-height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+}
+.login-container {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(44,62,80,0.2);
+  padding: 36px 30px;
+  width: 320px;
+  animation: fadein 1s;
+}
+@keyframes fadein {
+  0% { opacity: 0; transform: translateY(40px);}
+  100% { opacity: 1; transform: translateY(0);}
+}
+.login-form h2 {
+  margin-bottom: 24px;
+  color: #8534a8;
+  text-align: center;
+  font-weight: 700;
+}
+.input-group {
+  margin-bottom: 18px;
+}
+.input-group label {
+  font-size: 15px;
+  color: #444;
+  margin-bottom: 6px;
+  display: block;
+}
+.input-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #743939;
+  border-radius: 4px;
+  margin-top: 4px;
+  background: #fafafa;
+  font-size: 16px;
+  box-sizing: border-box;
+  transition: border .2s;
+}
+.input-group input:focus {
+  border: 1.5px solid #8e44ad;
+  outline: none;
+}
+.error-message {
+  color: #e74c3c;
+  font-size: 12px;
+  height: 12px;
+  margin-top: 3px;
+  display: block;
+}
+button[type="submit"] {
+  width: 100%;
+  background: linear-gradient(90deg, #2980b9 60%, #8e44ad 100%);
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 10px;
+  font-size: 16px;
+  margin-top: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: box-shadow .2s;
+  box-shadow: 0 2px 4px rgba(44,62,80,0.18);
+}
+button[type="submit"]:hover {
+  box-shadow: 0 4px 18px rgba(44,62,80,0.12)  ;
+}
+.extra-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 18px;
+  font-size: 13px;
+}
+.forgot-link {
+  color: #8e44ad;
+  text-decoration: none;
+  transition: color .2s;
+}
+.forgot-link:hover {
+  color: #2980b9;
+}
+@media (max-width: 400px) {
+  .login-container {
+    width: 90vw;
+    padding: 22px 6vw;
+  }
+}
+
+</style>
+<body>
+  <div class="login-container">
+    <form id="loginForm" class="login-form" autocomplete="off">
+      <h2>Login</h2>
+      <div class="input-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" required />
+        <span class="error-message" id="usernameError"></span>
+      </div>
+      <div class="input-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required />
+        <span class="error-message" id="passwordError"></span>
+      </div>
+      <button type="submit">Login</button>
+      <div class="extra-options">
+        <label>
+          <input type="checkbox" name="remember" />
+          Remember me
+        </label>
+        <a href="#" class="forgot-link">Forgot password?</a>
+      </div>
+    </form>
+  </div>
+  <script src="main.js"></script>
+</body>
+</html>

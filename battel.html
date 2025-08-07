@@ -1,0 +1,224 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join a Code Battle</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 40px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #f0f0f0;
+            text-align: center;
+            min-height: 100vh;
+        }
+        #container {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        #rankings {
+            background: rgba(30, 30, 60, 0.25);
+            margin: 24px auto;
+            padding: 16px 30px;
+            border-radius: 10px;
+            display: table;
+            min-width: 270px;
+        }
+        #rankings h2 {
+            margin-top: 0;
+            font-size: 1.2em;
+            letter-spacing: 1px;
+        }
+        #rankings table {width: 100%; border-collapse: collapse;}
+        #rankings th, #rankings td { padding: 5px 10px; }
+        #rankings th { color: #ffd700; }
+        #rankings tr:nth-child(1) td { color: #23ce6b; font-weight: bold; }
+        #usersSelect {
+            margin: 0 0 18px 0;
+            border-radius: 5px;
+            font-size: 1em;
+            padding: 7px 14px;
+        }
+        #task { margin-top: 25px; padding: 25px; background: rgba(255, 255, 255, 0.2); border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.2);}
+        button {
+            background-color: #ff6f61;
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 22px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            margin-bottom: 8px;
+        }
+        button:hover { background-color: #d94a38; }
+        #submitBtn { margin-top: 15px;}
+        textarea {width: 95%; height: 220px; margin-top: 20px; font-family: 'Courier New', Courier, monospace; font-size: 16px; border-radius: 10px; border: none; padding: 15px; background: #2d2d2d; color: #f8f8f2;}
+        #result {margin-top: 18px; padding: 14px; border-radius: 10px; font-size: 18px; font-weight: bold; display: none;}
+        .success { background: #23ce6b; color: #fff;}
+        .fail { background: #f44336; color: #fff; }
+        h1, h2 {text-shadow: 2px 2px 5px rgba(0,0,0,0.7);}
+        p {font-size: 18px; margin-top: 10px; text-shadow: 1px 1px 3px rgba(0,0,0,0.5);}
+    </style>
+</head>
+<body>
+<div id="container">
+    <h1>Join a Code Battle</h1>
+    <p>Get coding tasks, submit live, and climb the leaderboard!</p>
+    <div>
+        <label for="usersSelect" style="font-weight:bold;">Active User:</label>
+        <select id="usersSelect"></select>
+        <button id="joinBtn">Join Code Battle</button>
+    </div>
+
+    <div id="task" style="display:none;">
+        <h2>Your Task:</h2>
+        <p id="taskDescription"></p>
+        <textarea id="codeEditor" placeholder="Start coding here..."></textarea>
+        <br>
+        <button id="submitBtn">Submit Solution</button>
+        <div id="result"></div>
+    </div>
+    
+    <div id="rankings">
+        <h2>🏆 Live Rankings</h2>
+        <table id="leaderboard">
+            <!-- leaderboard fills here -->
+        </table>
+    </div>
+</div>
+
+<script>
+    // Task definitions (as before)
+    const tasks = [
+        {desc:'Write a function reverseString(str) that reverses a given string.\nExample: reverseString("hello") => "olleh"', func:'reverseString', testInput:'hello', expected:'olleh', starter:'function reverseString(str) {\n    // Your code here\n}'},
+        {desc:'Implement isPrime(n) to check if a number is prime.\nExample: isPrime(7) => true', func:'isPrime', testInput:7, expected:true, starter:'function isPrime(n) {\n    // Your code here\n}'},
+        {desc:'Create fibonacci(n) that returns an array of Fibonacci numbers up to n (inclusive).\nExample: fibonacci(5) => [0,1,1,2,3,5]', func:'fibonacci', testInput:5, expected:[0,1,1,2,3,5], starter:'function fibonacci(n) {\n    // Your code here\n}'},
+        {desc:'Write findLargest(arr) to return the largest number in an array.\nExample: findLargest([1,8,3]) => 8', func:'findLargest', testInput:[1,8,3], expected:8, starter:'function findLargest(arr) {\n    // Your code here\n}'},
+        {desc:'Implement sortArray(arr) to sort an array of integers.\nExample: sortArray([5,2,4]) => [2,4,5]', func:'sortArray', testInput:[5,2,4], expected:[2,4,5], starter:'function sortArray(arr) {\n    // Your code here\n}'},
+        {desc:'Write isPalindrome(str) to check whether a string is a palindrome.\nExample: isPalindrome("madam") => true', func:'isPalindrome', testInput:'madam', expected:true, starter:'function isPalindrome(str) {\n    // Your code here\n}'},
+        {desc:'Create mergeSortedArrays(a, b) to merge and sort two sorted arrays.\nExample: mergeSortedArrays([1,3],[2,4]) => [1,2,3,4]', func:'mergeSortedArrays', testInput:[[1,3],[2,4]], expected:[1,2,3,4], starter:'function mergeSortedArrays(a, b) {\n    // Your code here\n}'},
+        {desc:'Write factorial(n) that returns the factorial of n.\nExample: factorial(5) => 120', func:'factorial', testInput:5, expected:120, starter:'function factorial(n) {\n    // Your code here\n}'},
+        {desc:'Implement flatten(arr) that flattens a nested array.\nExample: flatten([1,[2,[3,4]],5]) => [1,2,3,4,5]', func:'flatten', testInput:[1,[2,[3,4]],5], expected:[1,2,3,4,5], starter:'function flatten(arr) {\n    // Your code here\n}'},
+        {desc:'Write firstNonRepeatingChar(str) that returns the first non-repeating character.\nExample: firstNonRepeatingChar("aabcbcde") => "d"', func:'firstNonRepeatingChar', testInput:"aabcbcde", expected:"d", starter:'function firstNonRepeatingChar(str) {\n    // Your code here\n}'},
+        {desc:'Create areAnagrams(a, b) to check if two strings are anagrams.\nExample: areAnagrams("listen", "silent") => true', func:'areAnagrams', testInput:["listen", "silent"], expected:true, starter:'function areAnagrams(a, b) {\n    // Your code here\n}'},
+        {desc:'Write toBinary(num) to convert a number to its binary representation as a string.\nExample: toBinary(5) => "101"', func:'toBinary', testInput:5, expected:"101", starter:'function toBinary(num) {\n    // Your code here\n}'},
+    ];
+
+    // Simulate users/players with scores & solved tasks
+    let users = [
+        { name: "User1", score: 0, solved: {} },
+        { name: "User2", score: 0, solved: {} },
+        { name: "User3", score: 0, solved: {} }
+    ];
+    let currentUserIndex = 0; // active user per select box
+    let currentTask = null;
+
+    // Helper to deeply compare outputs
+    function deepEqual(a, b) {
+        if (a === b) return true;
+        if (typeof a != typeof b) return false;
+        if (Array.isArray(a) && Array.isArray(b)) {
+            if (a.length !== b.length) return false;
+            for (let i = 0; i < a.length; i++) {
+                if (!deepEqual(a[i], b[i])) return false;
+            }
+            return true;
+        }
+        if (typeof a === 'object' && a && b) {
+            let keysA = Object.keys(a), keysB = Object.keys(b);
+            if (keysA.length !== keysB.length) return false;
+            for (let key of keysA) {
+                if (!deepEqual(a[key], b[key])) return false;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    function updateUserSelect() {
+        const sel = document.getElementById('usersSelect');
+        sel.innerHTML = "";
+        users.forEach((u, idx) => {
+            const option = document.createElement('option');
+            option.value = idx;
+            option.text = u.name;
+            sel.appendChild(option);
+        });
+        sel.selectedIndex = currentUserIndex;
+    }
+
+    // Rankings UI
+    function updateLeaderboard() {
+        const lb = document.getElementById('leaderboard');
+        let sorted = users.slice().sort((a, b) => b.score - a.score);
+        lb.innerHTML = `<tr><th>Rank</th><th>Name</th><th>Score</th></tr>` +
+            sorted.map((u, i) =>
+                `<tr><td>${i+1}</td><td>${u.name}</td><td>${u.score}</td></tr>`
+            ).join("");
+    }
+
+    document.getElementById('usersSelect').addEventListener('change', (e) => {
+        currentUserIndex = e.target.value | 0;
+        document.getElementById('result').style.display = "none";
+        document.getElementById('task').style.display = "none";
+    });
+
+    document.getElementById('joinBtn').addEventListener('click', () => {
+        const randomIndex = Math.floor(Math.random() * tasks.length);
+        currentTask = tasks[randomIndex];
+
+        document.getElementById('taskDescription').innerText = currentTask.desc;
+        document.getElementById('codeEditor').value = currentTask.starter;
+        document.getElementById('task').style.display = 'block';
+        document.getElementById('result').style.display = 'none';
+    });
+
+    document.getElementById('submitBtn').addEventListener('click', () => {
+        let userCode = document.getElementById('codeEditor').value;
+        let resultBox = document.getElementById('result');
+        resultBox.style.display = 'block';
+        const user = users[currentUserIndex];
+        try {
+            let userFunc = new Function(userCode + `\nreturn typeof ${currentTask.func} === 'function' ? ${currentTask.func} : null;`);
+            let fn = userFunc();
+            if (!fn) throw new Error(`Please define a function named "${currentTask.func}"`);
+            let output;
+            if (Array.isArray(currentTask.testInput) && currentTask.func === "mergeSortedArrays") {
+                output = fn(currentTask.testInput[0], currentTask.testInput[1]);
+            } else if (Array.isArray(currentTask.testInput) && currentTask.func === "areAnagrams") {
+                output = fn(currentTask.testInput[0], currentTask.testInput[1]);
+            } else {
+                output = fn(currentTask.testInput);
+            }
+            if (deepEqual(output, currentTask.expected)) {
+                // Award points if NOT already solved by this user:
+                if (!user.solved[currentTask.func]) {
+                    user.score += 1;
+                    user.solved[currentTask.func] = true; // task identified by function name
+                    updateLeaderboard();
+                }
+                resultBox.textContent = "✅ Correct solution!";
+                resultBox.className = "success";
+            } else {
+                resultBox.textContent = `❌ Try Again! Output: ${JSON.stringify(output)}, Expected: ${JSON.stringify(currentTask.expected)}`;
+                resultBox.className = "fail";
+            }
+        } catch (e) {
+            resultBox.textContent = 'Error: ' + e.message;
+            resultBox.className = "fail";
+        }
+    });
+
+    // On load
+    updateUserSelect();
+    updateLeaderboard();
+</script>
+</body>
+</html>
